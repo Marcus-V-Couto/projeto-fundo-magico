@@ -1,0 +1,38 @@
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 32px;
+    }
+    
+    .header .subtitle {
+        font-size: 16px;
+        text-align: center;
+    }
+    
+    .card {
+        font-size: 16px;
+        padding: 24px;
+    }
+    
+    .card-header {
+        font-size: 16px;
+        margin-bottom: 24px;
+    }
+
+    .code-grid {
+        flex-direction: column;
+    }
+
+    .code-card {
+        width: 100%;
+    }
+    
+    .form-group textarea {
+        min-height: 100px;
+        padding: 12px;
+    }
+
+    .form-group .generate-btn {
+        padding: 12px;
+        font-size: 16px;
+    }
+}
