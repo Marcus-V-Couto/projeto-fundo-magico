@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fundo Mágico</title>
+    <link rel="stylesheet" href="src/css/reset.css">
+    <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body>
     <header class="header">
@@ -12,7 +14,7 @@
     </header>
     <main class="container">
         <section class="card main-card">
-            <h2>Escreva o background que você deseja!</h2>
+            <h2 class="card-header">Descreva o background que você deseja!</h2>
             <form class="form-group">
                 <textarea id="description-input" class="description-input" rows="4" placeholder="Ex: um gradiente azul suave que vai do azul claro para o azul escuro"></textarea>
                 <button type="submit" id="generate-button" class="generate-btn">
@@ -24,11 +26,11 @@
         <section id="code-output" class="code-grid">
             <div class="card card code-card">
                 <h3 class="code-title">Código HTML</h3>
-                <pre id="html-code" class="code-block"></pre>
+                <pre id="html-code" class="code-block">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt perferendis accusamus aliquam, facilis, nesciunt molestiae perspiciatis autem explicabo mollitia, exercitationem ut at earum velit eveniet? Totam possimus qui magnam illum.</pre>
             </div>
             <div class="card card code-card">
                 <h3 class="code-title">Código CSS</h3>
-                <pre id="css-code" class="code-block"></pre>
+                <pre id="css-code" class="code-block">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias quos qui eligendi soluta voluptate vel placeat illo magnam illum, officia, natus, aperiam veniam similique quo? Excepturi unde provident sit ullam?</pre>
             </div>
         </section>
     </main>
