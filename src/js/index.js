@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         setLoading(true);
         try {
-            const response = await fetch('https://marcus-v-couto.app.n8n.cloud/webhook/gerador-fundo-magico', {
+            const response = await fetch('https://n8n.srv830193.hstgr.cloud/webhook/4096b767-f3fb-4244-bb3c-2df7994c2262', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -29,54 +29,59 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify({description})
             });
 
-            const raw = await response.text();
+            const data = await response.json();
 
-            console.log('RAW response:', raw);
-            console.log('Response status:', response.status);
-            console.log('Response headers:', [...response.headers.entries()]);
+            // const raw = await response.text();
 
-            if (!raw || !raw.trim()) {
-                const msg = `Resposta vazia do servidor (status ${response.status}). Verifique o endpoint no DevTools > Network.`;
-                console.error(msg);
-                htmlCode.textContent = msg;
-                cssCode.textContent = 'Sem CSS retornado (resposta vazia)';
-                preview.innerHTML = "";
-                return;
-            }
+            // console.log('RAW response:', raw);
+            // console.log('Response status:', response.status);
+            // console.log('Response headers:', [...response.headers.entries()]);
 
-            try {
-                await navigator.clipboard.writeText(raw);
-                console.log('Resposta copiada para o clipboard');
-            } catch (e) {
-                console.warn('Não foi possível copiar para o clipboard:', e);
-            }
+            // if (!raw || !raw.trim()) {
+            //     const msg = `Resposta vazia do servidor (status ${response.status}). Verifique o endpoint no DevTools > Network.`;
+            //     console.error(msg);
+            //     htmlCode.textContent = msg;
+            //     cssCode.textContent = 'Sem CSS retornado (resposta vazia)';
+            //     preview.innerHTML = "";
+            //     return;
+            // }
 
-            if (!response.ok) {
-                throw new Error(`Request failed ${response.status}: ${raw || '(sem corpo de texto)'}`);
-            }
+            // try {
+            //     await navigator.clipboard.writeText(raw);
+            //     console.log('Resposta copiada para o clipboard');
+            // } catch (e) {
+            //     console.warn('Não foi possível copiar para o clipboard:', e);
+            // }
 
-            const contentType = response.headers.get('content-type') || '';
-            let data = {};
+            // if (!response.ok) {
+            //     throw new Error(`Request failed ${response.status}: ${raw || '(sem corpo de texto)'}`);
+            // }
 
-            if (!raw) {
-                data = {};
-            } else if (contentType.includes('application/json')) {
-                try {
-                    data = JSON.parse(raw);
-                } catch (parseErr) {
-                    throw new Error('Resposta JSON inválida: ' + (raw || parseErr.message));
-                }
-            } else {
-                try {
-                    data = JSON.parse(raw);
-                } catch {
-                    throw new Error('Resposta não-JSON do servidor: ' + raw);
-                }
-            }
+            // const contentType = response.headers.get('content-type') || '';
+            // let data = {};
+
+            // if (!raw) {
+            //     data = {};
+            // } else if (contentType.includes('application/json')) {
+            //     try {
+            //         data = JSON.parse(raw);
+            //     } catch (parseErr) {
+            //         throw new Error('Resposta JSON inválida: ' + (raw || parseErr.message));
+            //     }
+            // } else {
+            //     try {
+            //         data = JSON.parse(raw);
+            //     } catch {
+            //         throw new Error('Resposta não-JSON do servidor: ' + raw);
+            //     }
+            // }
 
             htmlCode.textContent = data.code || "";
             cssCode.textContent = data.style || "";
 
+            preview.style.display = "block";
+			preview.innerHTML = data.code || "";
+            
             let styleTag = document.getElementById("dynamic-style")
 
             if (styleTag) {
@@ -84,24 +89,31 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (data.style) {
-                const keyframesMatch = data.style.match(/@keyframes[\s\S]*?}\s*}/g);
-                const keyframesCSS = keyframesMatch ? keyframesMatch.join('\n') : '';
-                
-                const cssWithoutKeyframes = data.style.replace(/@keyframes[\s\S]*?}\s*}/g, '');
-                
-                const orderedCSS = keyframesCSS + '\n' + cssWithoutKeyframes;
+				styleTag = document.createElement("style");
+				styleTag.id = "dynamic-style";
+				styleTag.textContent = data.style;
+				document.head.appendChild(styleTag);
+			}
 
-                styleTag = document.createElement("style");
-                styleTag.id = "dynamic-style";
+            // if (data.style) {
+            //     const keyframesMatch = data.style.match(/@keyframes[\s\S]*?}\s*}/g);
+            //     const keyframesCSS = keyframesMatch ? keyframesMatch.join('\n') : '';
                 
-                const cssWithImportant = orderedCSS
-                    .replace(/animation:/g, 'animation: !important')
-                    .replace(/animation-duration:/g, 'animation-duration: !important')
-                    .replace(/animation-direction:/g, 'animation-direction: !important');
+            //     const cssWithoutKeyframes = data.style.replace(/@keyframes[\s\S]*?}\s*}/g, '');
                 
-                styleTag.textContent = cssWithImportant;
-                document.head.appendChild(styleTag);
-            }
+            //     const orderedCSS = keyframesCSS + '\n' + cssWithoutKeyframes;
+
+            //     styleTag = document.createElement("style");
+            //     styleTag.id = "dynamic-style";
+                
+            //     const cssWithImportant = orderedCSS
+            //         .replace(/animation:/g, 'animation: !important')
+            //         .replace(/animation-duration:/g, 'animation-duration: !important')
+            //         .replace(/animation-direction:/g, 'animation-direction: !important');
+                
+            //     styleTag.textContent = cssWithImportant;
+            //     document.head.appendChild(styleTag);
+            // }
             
             // setTimeout(() => {
             //     preview.style.display = "block";
@@ -109,14 +121,14 @@ document.addEventListener('DOMContentLoaded', function () {
             //     void preview.offsetHeight;
             // }, 300);
 
-            preview.innerHTML = "";
-            void preview.offsetHeight;
+            // preview.innerHTML = "";
+            // void preview.offsetHeight;
             
-            requestAnimationFrame(() => {
-                preview.style.display = "block";
-                preview.innerHTML = data.code || "";
-                void preview.offsetHeight;
-            });
+            // requestAnimationFrame(() => {
+            //     preview.style.display = "block";
+            //     preview.innerHTML = data.code || "";
+            //     void preview.offsetHeight;
+            // });
             
         } catch (err){
             console.error("Erro ao gerar o fundo mágico:", err);

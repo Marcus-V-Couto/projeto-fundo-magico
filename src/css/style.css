@@ -89,6 +89,10 @@ body {
     transform: translateY(-2px);
 }
 
+.form-group .generate-btn .btn-text {
+    font-weight: 600;
+}
+
 .preview-card {
     display: none;
 }
