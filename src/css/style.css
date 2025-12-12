@@ -9,7 +9,7 @@ body {
 
 .header {
     /* background-color: red; */
-    z-index: 99;
+    z-index: 999;
     position: relative;
     max-width: 700px;
     margin: 40px auto;
